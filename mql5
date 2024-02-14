@@ -1,0 +1,110 @@
+
+//+------------------------------------------------------------------+
+//|                                                     WaveTrend Plus|
+//|                                        Developed by Forex Robot Easy Team|
+//|                                                      forexroboteasy.com|
+//+------------------------------------------------------------------+
+
+// Define maximum number of bars to be processed
+#define MAX_BARS 1000
+
+// Define indicator variables
+double wtLine[MAX_BARS];             // WaveTrend Line
+double wtSignal[MAX_BARS];           // WaveTrend Signal Line
+double overboughtLevel = 60;         // Overbought level
+double oversoldLevel = -60;          // Oversold level
+
+//+------------------------------------------------------------------+
+//| Custom indicator initialization function                          |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+    // Set indicator buffers
+    SetIndexBuffer(0, wtLine);
+    SetIndexBuffer(1, wtSignal);
+
+    // Set indicator label
+    IndicatorSetString(INDICATOR_SHORTNAME, 'WaveTrend Plus');
+
+    // Set oversold and overbought levels
+    IndicatorSetDouble(INDICATOR_LEVELVALUE, 0, overboughtLevel);
+    IndicatorSetDouble(INDICATOR_LEVELVALUE, 1, oversoldLevel);
+
+    return(INIT_SUCCEEDED);
+}
+
+//+------------------------------------------------------------------+
+//| Custom indicator iteration function                               |
+//+------------------------------------------------------------------+
+int OnCalculate(const int rates_total,
+                const int prev_calculated,
+                const datetime &time[],
+                const double &open[],
+                const double &high[],
+                const double &low[],
+                const double &close[],
+                const long &tick_volume[],
+                const long &volume[],
+                const int &spread[])
+{
+    // Calculate the indicator values
+    int limit = MathMin(rates_total, MAX_BARS);
+    for (int i = prev_calculated; i < limit; i++)
+    {
+        wtLine[i] = ComputeWaveTrendLine(i);
+        wtSignal[i] = ComputeWaveTrendSignal(i);
+    }
+
+    return(rates_total);
+}
+
+//+------------------------------------------------------------------+
+//| Function to compute the WaveTrend Line                            |
+//+------------------------------------------------------------------+
+double ComputeWaveTrendLine(const int bar)
+{
+    // Compute the WaveTrend Line based on price and momentum calculations
+    // Add your logic here
+
+    return 0; // Replace with the computed value
+}
+
+//+------------------------------------------------------------------+
+//| Function to compute the WaveTrend Signal Line                     |
+//+------------------------------------------------------------------+
+double ComputeWaveTrendSignal(const int bar)
+{
+    // Compute the WaveTrend Signal Line based on price and momentum calculations
+    // Add your logic here
+
+    return 0; // Replace with the computed value
+}
+
+//+------------------------------------------------------------------+
+//| Custom trading function                                          |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+    // Check for oversold and overbought conditions
+    if (wtLine[0] > overboughtLevel)
+    {
+        // Add logic for oversold condition
+        // Place trade or take necessary action
+    }
+    else if (wtLine[0] < oversoldLevel)
+    {
+        // Add logic for overbought condition
+        // Place trade or take necessary action
+    }
+}
+
+//+------------------------------------------------------------------+
+//| Custom function for divergence detection                          |
+//+------------------------------------------------------------------+
+bool DetectDivergence()
+{
+    // Add logic for detecting divergence
+    // Return true if divergence is detected, false otherwise
+
+    return false; // Replace with the actual divergence detection result
+}
